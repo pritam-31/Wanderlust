@@ -1,24 +1,29 @@
+/* Global Styles */
 body {
     font-family: 'Plus Jakarta Sans', sans-serif !important;
-    /* font-size: 16px;
-    line-height: 1.5; */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    margin: 0;
 }
 
 .container {
     flex: 1;
+    width: 100%;
+    padding: 0 1rem;
 }
 
-
-/* navbar */
-.navbar{
+/* ---------------------------------- */
+/* NAVBAR */
+/* ---------------------------------- */
+.navbar {
     height: 5rem;
     background-color: #fff;
+    display: flex;
+    align-items: center;
 }
 
-.fa-compass{
+.fa-compass {
     color: #fe424d;
     font-size: 2rem;
 }
@@ -27,7 +32,18 @@ body {
     color: #222222 !important;
 }
 
-/* footer */
+/* ---------------------------------- */
+/* FOOTER */
+/* ---------------------------------- */
+.f-info {
+    text-align: center;
+    background-color: #ebebeb;
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
 .f-info-links a {
     text-decoration: none;
     color: #222222;
@@ -37,58 +53,40 @@ body {
     text-decoration: underline;
 }
 
-.f-info-links, 
-.f-info-socials,
-.f-info-brand {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .f-info-socials i {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     margin-right: 1rem;
 }
 
-.f-info {
-    text-align: center;
-    height: 8rem;
-    display: flex;
-    background-color: #ebebeb;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: space-evenly;
-}
-
-/* Cards */
+/* ---------------------------------- */
+/* LISTING CARDS */
+/* ---------------------------------- */
 .listing-card {
     border: none !important;
     margin-bottom: 2rem;
+    width: 100%;
 }
 
 .card-img-top {
     border-radius: 1rem !important;
     width: 100% !important;
     object-fit: cover !important;
+    height: 220px;
 }
 
 .card-body {
     padding: 0 !important;
 }
 
-.card-text p {
-    font-weight: 400 !important;
-}
-
-.listing-link {                         /* listing cards link */
+.listing-link {
     text-decoration: none;
+    color: inherit;
 }
 
-
-/* Card Effect */
+/* Hover effect */
 .card-img-overlay {
     opacity: 0;
+    transition: opacity 0.2s ease;
 }
 
 .card-img-overlay:hover {
@@ -96,52 +94,121 @@ body {
     background-color: #ebebeb;
 }
 
-
-/* Add New-Listing (Form) */
-.add-btn {
+/* ---------------------------------- */
+/* BUTTONS */
+/* ---------------------------------- */
+.add-btn,
+.edit-btn {
     background-color: #fe424d !important;
     border: none !important;
 }
 
-
-/* Show Ejs Template */
-.show-img {
-    height: 40vh;
-}
-
-
-.edit-btn {
-    background-color: #fe424d !important;
-}
-
 .delete-btn {
     background-color: #222222 !important;
+    border: none !important;
+}
+
+/* ---------------------------------- */
+/* SHOW PAGE */
+/* ---------------------------------- */
+.show-img {
+    width: 100%;
+    height: 40vh;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
 .btns {
     display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .show-card {
-    padding-left: 0;
-    padding-right: 0;
+    padding: 0;
 }
 
-/* Preview Image */
+/* ---------------------------------- */
+/* IMAGE PREVIEW */
+/* ---------------------------------- */
 .edit-img-preview img {
-    width: 300px;      /* fix width same as screenshot */
-    height: 180px;      /* height automatically adjusts */
+    width: 100%;
+    max-width: 320px;
+    height: 180px;
     border-radius: 5px;
-    object-fit: cover; /* image clean dikhti hai */
-    display: block;
+    object-fit: cover;
 }
 
-/* Map */
-#map { 
-    height: 400px;
-    width: 80vh;
+/* ---------------------------------- */
+/* MAP */
+/* ---------------------------------- */
+#map {
+    height: 350px;
+    width: 100%;
+    border-radius: 10px;
 }
 
+/* ---------------------------------- */
+/* TAX INFO */
+/* ---------------------------------- */
 .tax-info {
     display: none;
+}
+
+
+/* ---------------------------------- */
+/* RESPONSIVE BREAKPOINTS */
+/* ---------------------------------- */
+
+/* 🔹 Small Devices (Phones) */
+@media (max-width: 576px) {
+    .navbar {
+        height: 4rem;
+    }
+
+    .card-img-top {
+        height: 180px;
+    }
+
+    #map {
+        height: 280px;
+    }
+
+    .show-img {
+        height: 30vh;
+    }
+}
+
+/* 🔹 Medium Devices (Tablets) */
+@media (min-width: 577px) and (max-width: 768px) {
+    .card-img-top {
+        height: 200px;
+    }
+
+    #map {
+        height: 330px;
+    }
+}
+
+/* 🔹 Large Devices (Laptop) */
+@media (min-width: 769px) and (max-width: 1200px) {
+    .card-img-top {
+        height: 230px;
+    }
+
+    #map {
+        height: 380px;
+    }
+}
+
+/* 🔹 Extra Large Devices (Big Screens) */
+@media (min-width: 1201px) {
+    .container {
+        width: 90%;
+        margin: auto;
+    }
+
+    .card-img-top {
+        height: 260px;
+    }
 }
