@@ -209,7 +209,7 @@ Debugging & building production-style code
 ---
 
 🔗 GitHub Repository :-
-https://lnkd.in/gr5EQYC7
+https://github.com/pritam-31/Wanderlust
 
 👉 Live Code:
 https://wanderlust-0mhb.onrender.com
