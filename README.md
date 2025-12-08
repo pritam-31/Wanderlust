@@ -208,11 +208,11 @@ Debugging & building production-style code
 
 ---
 
-🔗 GitHub Repository
+🔗 GitHub Repository :-
+https://lnkd.in/gr5EQYC7
 
-(Replace with your actual link)
-
-👉 Live Code: https://github.com/yourusername/wanderlust
+👉 Live Code:
+https://wanderlust-0mhb.onrender.com
 
 
 ---
