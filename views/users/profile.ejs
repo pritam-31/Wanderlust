@@ -1,0 +1,408 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+    .profile-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+    }
+    
+    .profile-header {
+        background: linear-gradient(135deg, #fb4c07 0%, #fe424d 100%);
+        border-radius: 20px;
+        padding: 2rem;
+        color: white;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 30px rgba(251, 76, 7, 0.2);
+    }
+    
+    .profile-avatar {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 5px solid white;
+        background: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        color: #fb4c07;
+        margin: 0 auto 1.5rem;
+    }
+    
+    .profile-stats {
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        margin-top: 2rem;
+    }
+    
+    .stat-box {
+        text-align: center;
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        min-width: 180px;
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        display: block;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        color: #333;
+        border-bottom: 2px solid #fb4c07;
+        padding-bottom: 0.5rem;
+    }
+    
+    .user-listings-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+    
+    .listing-card-profile {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease;
+        background: white;
+    }
+    
+    .listing-card-profile:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    .listing-img-profile {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+    }
+    
+    .listing-info-profile {
+        padding: 1.5rem;
+    }
+    
+    .listing-title-profile {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+    
+    .listing-price-profile {
+        color: #fb4c07;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        background: #f8f9fa;
+        border-radius: 15px;
+        margin: 2rem 0;
+    }
+    
+    .empty-state i {
+        font-size: 4rem;
+        color: #ddd;
+        margin-bottom: 1rem;
+    }
+    
+    .edit-profile-btn {
+        background: white;
+        color: #fb4c07;
+        border: 2px solid #fb4c07;
+        padding: 0.5rem 1.5rem;
+        border-radius: 25px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .edit-profile-btn:hover {
+        background: #fb4c07;
+        color: white;
+    }
+    
+    .profile-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 1.5rem;
+    }
+</style>
+
+<div class="profile-container">
+    <!-- Profile Header -->
+    <div class="profile-header text-center">
+        <div class="profile-avatar">
+            <i class="fa-regular fa-user"></i>
+        </div>
+        
+        <h1 class="display-5 fw-bold mb-2"><%= currentUser.username %></h1>
+        <p class="mb-3">
+            <i class="fas fa-envelope me-2"></i><%= currentUser.email %>
+        </p>
+        
+        <p class="mb-4">
+            Member since <%= new Date().toLocaleDateString('en-IN', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            }) %>
+        </p>
+        
+        <div class="profile-stats">
+            <div class="stat-box">
+                <span class="stat-number"><%= userStats.totalListings || 0 %></span>
+                <span class="stat-label">Properties</span>
+            </div>
+            
+            <div class="stat-box">
+                <span class="stat-number"><%= userStats.totalReviews || 0 %></span>
+                <span class="stat-label">Reviews</span>
+            </div>
+            
+            <div class="stat-box">
+                <span class="stat-number">₹<%= (userStats.totalEarnings || 0).toLocaleString('en-IN') %></span>
+                <span class="stat-label">Earnings</span>
+            </div>
+            
+            <div class="stat-box">
+                <span class="stat-number"><%= userStats.tripsCount || 0 %></span>
+                <span class="stat-label">Trips</span>
+            </div>
+        </div>
+        
+        <div class="profile-actions">
+            <button class="btn edit-profile-btn">
+                <i class="fas fa-edit me-2"></i>Edit Profile
+            </button>
+            <a href="/listings/new" class="btn btn-light">
+                <i class="fas fa-plus me-2"></i>Add New Property
+            </a>
+        </div>
+    </div>
+    
+    <!-- My Properties Section -->
+    <div class="mb-5">
+        <h2 class="section-title">
+            <i class="fas fa-home me-2"></i>My Properties
+        </h2>
+        
+        <% if(userListings && userListings.length > 0) { %>
+            <div class="user-listings-grid">
+                <% userListings.forEach(listing => { %>
+                    <div class="listing-card-profile">
+                        <img 
+                            src="<%= listing.image.url %>" 
+                            class="listing-img-profile" 
+                            alt="<%= listing.title %>"
+                        >
+                        <div class="listing-info-profile">
+                            <h3 class="listing-title-profile"><%= listing.title %></h3>
+                            <p class="text-muted mb-2">
+                                <i class="fas fa-map-marker-alt me-1"></i>
+                                <%= listing.location %>, <%= listing.country %>
+                            </p>
+                            <p class="listing-price-profile mb-3">
+                                ₹<%= listing.price.toLocaleString('en-IN') %> / night
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-success">
+                                    <i class="fas fa-star me-1"></i>
+                                    <%= listing.averageRating ? listing.averageRating.toFixed(1) : 'New' %>
+                                </span>
+                                <div>
+                                    <a 
+                                        href="/listings/<%= listing._id %>" 
+                                        class="btn btn-sm btn-outline-primary me-2"
+                                    >
+                                        View
+                                    </a>
+                                    <a 
+                                        href="/listings/<%= listing._id %>/edit" 
+                                        class="btn btn-sm btn-outline-warning"
+                                    >
+                                        Edit
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <div class="empty-state">
+                <i class="fas fa-home"></i>
+                <h3 class="mb-3">No Properties Yet</h3>
+                <p class="text-muted mb-4">
+                    Start your hosting journey by listing your first property
+                </p>
+                <a href="/listings/new" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>List Your Property
+                </a>
+            </div>
+        <% } %>
+    </div>
+    
+    <!-- Recent Reviews Section -->
+    <div class="mb-5">
+        <h2 class="section-title">
+            <i class="fas fa-star me-2"></i>Recent Reviews
+        </h2>
+        
+        <% if(userReviews && userReviews.length > 0) { %>
+            <div class="row">
+                <% userReviews.forEach(review => { %>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="me-3">
+                                        <i class="fas fa-user-circle fa-2x text-secondary"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="mb-0"><%= review.author?.username || 'Anonymous' %></h5>
+                                        <small class="text-muted">
+                                            <% if(review.createdAt) { %>
+                                                <%= new Date(review.createdAt).toLocaleDateString('en-IN') %>
+                                            <% } else { %>
+                                                Date not available
+                                            <% } %>
+                                        </small>
+                                    </div>
+                                </div>
+                                
+                                <div class="starability-result mb-3" data-rating="<%= review.rating || 0 %>">
+                                    <!-- Star rating will be shown here -->
+                                </div>
+                                
+                                <p class="card-text"><%= review.comment || 'No comment' %></p>
+                                
+                                <div class="mt-3">
+                                    <small class="text-muted">
+                                        <% if(review.listing && review.listing._id) { %>
+                                            On: 
+                                            <a href="/listings/<%= review.listing._id %>" class="text-decoration-none">
+                                                <%= review.listing.title || 'Untitled Listing' %>
+                                            </a>
+                                        <% } else if(review.listingId) { %>
+                                            On: 
+                                            <a href="/listings/<%= review.listingId %>" class="text-decoration-none">
+                                                Listing #<%= review.listingId.toString().substring(0, 8) %>...
+                                            </a>
+                                        <% } else { %>
+                                            On: <span class="text-muted">Listing not available</span>
+                                        <% } %>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <div class="empty-state">
+                <i class="fas fa-comment-alt"></i>
+                <h3 class="mb-3">No Reviews Yet</h3>
+                <p class="text-muted">
+                    Your reviews will appear here once you start reviewing properties
+                </p>
+            </div>
+        <% } %>
+    </div>
+    
+    <!-- Account Settings -->
+    <div class="card">
+        <div class="card-header bg-light">
+            <h3 class="mb-0">
+                <i class="fas fa-cog me-2"></i>Account Settings
+            </h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="mb-3">Personal Information</h5>
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-control" value="<%= currentUser.username %>" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" value="<%= currentUser.email %>" readonly>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <h5 class="mb-3">Preferences</h5>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+                        <label class="form-check-label" for="emailNotifications">
+                            Email notifications
+                        </label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="smsNotifications">
+                        <label class="form-check-label" for="smsNotifications">
+                            SMS notifications
+                        </label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="newsletter" checked>
+                        <label class="form-check-label" for="newsletter">
+                            Monthly newsletter
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <button class="btn btn-outline-danger me-2">
+                    <i class="fas fa-key me-2"></i>Change Password
+                </button>
+                <button class="btn btn-outline-warning">
+                    <i class="fas fa-trash-alt me-2"></i>Delete Account
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Initialize star ratings
+    document.addEventListener('DOMContentLoaded', function() {
+        const starResults = document.querySelectorAll('.starability-result');
+        starResults.forEach(result => {
+            const rating = parseInt(result.getAttribute('data-rating'));
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) {
+                    stars += '<i class="fas fa-star text-warning"></i>';
+                } else {
+                    stars += '<i class="far fa-star text-warning"></i>';
+                }
+            }
+            result.innerHTML = stars;
+        });
+        
+        // Edit profile button functionality
+        document.querySelector('.edit-profile-btn').addEventListener('click', function() {
+            alert('Edit profile feature coming soon!');
+        });
+    });
+</script>

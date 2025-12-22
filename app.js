@@ -18,7 +18,7 @@ const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 
 //routes path--->>>
-const listingsRouter = require("./routes/listing.js");
+const listingsRouter = require("./routes/listings.js");
 const reviewsRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
@@ -114,6 +114,9 @@ app.use((req, res, next) => {
 app.use("/listings", listingsRouter);
 //review routes
 app.use("/listings/:id/reviews", reviewsRouter);
+//bookings routes
+const bookingsRouter = require("./routes/bookings.js");
+app.use("/bookings", bookingsRouter);
 //user routes
 app.use("/", userRouter);
 
