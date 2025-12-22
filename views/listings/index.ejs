@@ -2,16 +2,23 @@
 
     <!-- ek line me karne ke liye -->
     <style>
-        #filters{
+        /* Filter slider styles */
+        .filters-wrap { position: relative; margin-top: 1rem; }
+        .slides { overflow-x: hidden; }
+        .slides-inner { display:flex; gap:1rem; align-items:center; padding:0.6rem; scroll-behavior:smooth; }
+
+        #filters{ /* inner container */
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             align-items: center;
         }
 
         .filter {
             text-align: center;
-            margin: 2rem 0 0 2rem;
-            opacity: 0.7;
+            margin: 0 1rem 0 0;
+            opacity: 0.8;
+            min-width: 88px;
+            flex: 0 0 auto;
         }
 
         .filter:hover {
@@ -27,10 +34,33 @@
             border: 1px solid black;
             border-radius: 1rem;
             height: 3.2rem;
-            padding: 0.75rem;
-            margin-left: 3rem;
+            padding: 0.6rem 0.9rem;
+            margin-left: 1rem;
             display: flex;
-            text-align: center;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.95);
+            border: 1px solid #ddd;
+            padding: 0.3rem 0.6rem;
+            border-radius: 0.3rem;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+        .prev { left: 0.2rem; }
+        .next { right: 0.2rem; }
+
+        .dots { text-align: center; margin-top: 0.6rem; }
+        .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #ddd; margin: 0 .25rem; cursor: pointer; }
+        .dot.active { background: #333; }
+
+        @media(min-width:768px){
+            .filter { margin: 2rem 1rem 0 0; }
         }
     </style>
 
@@ -40,87 +70,93 @@
         <button>Create New Listing</button>
     </form> -->
 
-<div id="filters">
-    <p class="d-inline-flex gap-1">
-    <div class="filter">
-        <div>
-            <i class="fa-solid fa-fire"></i>
+<div class="filters-wrap">
+    <button class="prev" aria-label="Previous">&#8249;</button>
+    <div class="slides">
+      <div id="filters" class="slides-inner">
+        <div class="filter">
+            <div>
+                <i class="fa-solid fa-fire"></i>
+            </div>
+            <p>Trending</p>
         </div>
-        <p>Trending</p>
-    </div>
-    <div class="filter">
-        <div>
-            <i class="fa-solid fa-bed"></i>
+        <div class="filter">
+            <div>
+                <i class="fa-solid fa-bed"></i>
+            </div>
+            <p>Rooms</p>
         </div>
-        <p>Rooms</p>
-    </div>
-    <div class="filter">
-        <div>
-            <i class="fa-solid fa-mountain-city"></i>
+        <div class="filter">
+            <div>
+                <i class="fa-solid fa-mountain-city"></i>
+            </div>
+            <p>Iconic Cities</p>
         </div>
-        <p>Iconic Cities</p>
-    </div>
-    <div class="filter">
-        <div>
-            <i class="fa-solid fa-mountain"></i>
+        <div class="filter">
+            <div>
+                <i class="fa-solid fa-mountain"></i>
+            </div>
+            <p>Mountain</p>
         </div>
-        <p>Mountain</p>
-    </div>
-    <div class="filter">
-        <div>
-            <i class="fa-brands fa-fort-awesome"></i>
+        <div class="filter">
+            <div>
+                <i class="fa-brands fa-fort-awesome"></i>
+            </div>
+            <p>Castles</p>
         </div>
-        <p>Castles</p>
-    </div>
-    <div class="filter">
-        <div>
-            <i class="fa-solid fa-person-swimming fa-flip-horizontal"></i>
+        <div class="filter">
+            <div>
+                <i class="fa-solid fa-person-swimming fa-flip-horizontal"></i>
+            </div>
+            <p>Amazing Pools</p>
         </div>
-        <p>Amazing Pools</p>
-    </div>
-    <div class="filter">
-        <div>
-            <i class="fa-solid fa-campground"></i>
+        <div class="filter">
+            <div>
+                <i class="fa-solid fa-campground"></i>
+            </div>
+            <p>Camping</p>
         </div>
-        <p>Camping</p>
-    </div>
-    <div class="filter">
-        <div>
-            <i class="fa-solid fa-cow"></i>
+        <div class="filter">
+            <div>
+                <i class="fa-solid fa-cow"></i>
+            </div>
+            <p>Farms</p>
         </div>
-        <p>Farms</p>
-    </div>
-    <div class="filter">
-        <div>
-            <i class="fa-solid fa-snowflake"></i>
+        <div class="filter">
+            <div>
+                <i class="fa-solid fa-snowflake"></i>
+            </div>
+            <p>Arctic</p>
         </div>
-        <p>Arctic</p>
-    </div>
-    <div class="filter">
-        <div>
-            <i class="fa-solid fa-igloo"></i>
+        <div class="filter">
+            <div>
+                <i class="fa-solid fa-igloo"></i>
+            </div>
+            <p>Domes</p>
         </div>
-        <p>Domes</p>
-    </div>
-    <div class="filter">
-        <div>
-            <i class="fa-solid fa-ship"></i>
+        <div class="filter">
+            <div>
+                <i class="fa-solid fa-ship"></i>
+            </div>
+            <p>Boats</p>
         </div>
-        <p>Boats</p>
-    </div>
-    <div class="tax-toggle">
-        <div class="form-check-reverse form-switch">
-            <input 
-                class="form-check-input" 
-                type="checkbox" 
-                role="switch" 
-                id="switchCheckDefault"
-            />
-            <label 
-                class="form-check-label" for="switchCheckDefault"
-            >Display total after taxes</label>
+        <div class="tax-toggle">
+            <div class="form-check-reverse form-switch">
+                <input 
+                    class="form-check-input" 
+                    type="checkbox" 
+                    role="switch" 
+                    id="switchCheckDefault"
+                />
+                <label 
+                    class="form-check-label" for="switchCheckDefault"
+                >Display total after taxes</label>
+            </div>
         </div>
+      </div>
     </div>
+    <button class="next" aria-label="Next">&#8250;</button>
+    <div class="dots"></div>
 </div>
 
 <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
@@ -158,6 +194,63 @@
             }
         }
     });
+
+    // Filter slider behavior
+    (function(){
+        const slides = document.querySelector('.slides');
+        const slidesInner = document.querySelector('.slides-inner');
+        const prevBtn = document.querySelector('.prev');
+        const nextBtn = document.querySelector('.next');
+        const dotsContainer = document.querySelector('.dots');
+        if(!slides || !slidesInner || !dotsContainer) return;
+
+        function calcPages() {
+            return Math.max(1, Math.ceil(slidesInner.scrollWidth / slides.clientWidth));
+        }
+
+        let pages = calcPages();
+        let index = 0;
+
+        function renderDots(){
+            dotsContainer.innerHTML = '';
+            pages = calcPages();
+            for(let i=0;i<pages;i++){
+                const d = document.createElement('span');
+                d.className = 'dot' + (i===index? ' active' : '');
+                d.addEventListener('click', ()=>{
+                    index = i;
+                    slides.scrollTo({ left: i * slides.clientWidth, behavior: 'smooth' });
+                    renderDots();
+                });
+                dotsContainer.appendChild(d);
+            }
+        }
+
+        renderDots();
+
+        prevBtn?.addEventListener('click', ()=>{
+            index = Math.max(0, index - 1);
+            slides.scrollTo({ left: index * slides.clientWidth, behavior: 'smooth' });
+            renderDots();
+        });
+
+        nextBtn?.addEventListener('click', ()=>{
+            index = Math.min(pages - 1, index + 1);
+            slides.scrollTo({ left: index * slides.clientWidth, behavior: 'smooth' });
+            renderDots();
+        });
+
+        let resizeTimer;
+        window.addEventListener('resize', ()=>{
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(()=>{ renderDots(); }, 120);
+        });
+
+        slides.addEventListener('scroll', ()=>{
+            index = Math.round(slides.scrollLeft / slides.clientWidth);
+            renderDots();
+        });
+    })();
 </script>
 
 
