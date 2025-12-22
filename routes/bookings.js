@@ -6,8 +6,10 @@ const { isLoggedIn } = require('../middleware');
 
 router.post('/', isLoggedIn, wrapAsync(bookingsController.createBooking));
 router.post('/:id/cancel', isLoggedIn, wrapAsync(bookingsController.cancelBooking));
-// dev seed (requires logged-in user)
-router.get('/seed/sample', isLoggedIn, wrapAsync(bookingsController.seedBookings));
+// dev seed (requires logged-in user) — only enable in non-production
+if (process.env.NODE_ENV !== 'production') {
+  router.get('/seed/sample', isLoggedIn, wrapAsync(bookingsController.seedBookings));
+}
 router.get('/me', isLoggedIn, wrapAsync(bookingsController.getUserBookings));
 
 module.exports = router;

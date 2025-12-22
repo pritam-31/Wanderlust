@@ -205,88 +205,18 @@
     </div>
     </div>
 
-    <!-- Booking Card -->
-    <div class="col-6 offset-3 mt-4 mb-4">
-        <div class="card p-3">
-            <h4>Book this place</h4>
-            <% if(currentUser) { %>
-            <form id="bookingForm" method="POST" action="/bookings">
-                <input type="hidden" name="listingId" value="<%= listing._id %>">
-                <div class="row">
-                    <div class="mb-3 col-md-6">
-                        <label class="form-label">Start Date</label>
-                        <input type="date" id="startDate" name="startDate" class="form-control" required>
-                    </div>
-                    <div class="mb-3 col-md-6">
-                        <label class="form-label">End Date</label>
-                        <input type="date" id="endDate" name="endDate" class="form-control" required>
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <p>Price per night: <strong>₹<%= listing.price.toLocaleString('en-IN') %></strong></p>
-                    <p>Total nights: <strong id="nights">0</strong></p>
-                    <p>Total price: <strong id="total">₹0</strong></p>
-                </div>
-
-                <input type="hidden" id="totalPriceInput" name="totalPrice" value="0">
-
-                <button class="btn btn-primary" id="bookBtn">Book Now</button>
-            </form>
-            <% } else { %>
-                <a href="/login" class="btn btn-primary">Log in to Book</a>
-            <% } %>
-        </div>
+    <!-- Quick Book Button (opens modal) -->
+    <div class="col-6 offset-3 mt-4 mb-4 text-center">
+        <% if(currentUser) { %>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal" data-listingid="<%= listing._id %>" data-price="<%= listing.price %>">Book Now</button>
+        <% } else { %>
+            <a href="/login" class="btn btn-primary">Log in to Book</a>
+        <% } %>
     </div>
 
 </div>
 
 
-<script>
-    (function(){
-        const start = document.getElementById('startDate');
-        const end = document.getElementById('endDate');
-        const nightsEl = document.getElementById('nights');
-        const totalEl = document.getElementById('total');
-        const totalPriceInput = document.getElementById('totalPriceInput');
-        const pricePerNight = Number(<%= listing.price %>);
 
-        function updateTotals(){
-            const sd = start.value ? new Date(start.value) : null;
-            const ed = end.value ? new Date(end.value) : null;
-            let nights = 0;
-            if(sd && ed){
-                const diff = (ed - sd) / (1000 * 60 * 60 * 24);
-                nights = Math.max(0, Math.ceil(diff));
-            }
-            if(nights <= 0) nights = 1;
-            const total = nights * pricePerNight;
-            nightsEl.textContent = nights;
-            totalEl.textContent = '₹' + total.toLocaleString('en-IN');
-            totalPriceInput.value = total;
-        }
-
-        start?.addEventListener('change', updateTotals);
-        end?.addEventListener('change', updateTotals);
-
-        // on submit, basic validation
-        const form = document.getElementById('bookingForm');
-        form?.addEventListener('submit', function(e){
-            const sd = start.value;
-            const ed = end.value;
-            if(!sd || !ed){
-                e.preventDefault();
-                alert('Please select start and end dates');
-                return;
-            }
-            if(new Date(ed) <= new Date(sd)){
-                if(!confirm('End date is same or before start date. Proceed with 1 night?')){
-                    e.preventDefault();
-                    return;
-                }
-            }
-        });
-    })();
-</script>
 
 <script src="/JS/map.js"></script>

@@ -1,6 +1,8 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const Booking = require('../models/booking');
+const Listing = require('../models/listing');
+const User = require('../models/user');
 
 const dbUrl = process.env.ATLASDB_URL;
 

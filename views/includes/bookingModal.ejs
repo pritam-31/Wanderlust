@@ -1,0 +1,34 @@
+<!-- Booking Modal -->
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="bookingModalLabel">Book Listing</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="modalBookingForm" method="POST" action="/bookings">
+      <div class="modal-body">
+          <input type="hidden" name="listingId" id="modalListingId">
+          <div class="mb-3">
+              <label class="form-label">Start Date</label>
+              <input type="date" name="startDate" id="modalStartDate" class="form-control" required>
+          </div>
+          <div class="mb-3">
+              <label class="form-label">End Date</label>
+              <input type="date" name="endDate" id="modalEndDate" class="form-control" required>
+          </div>
+          <div class="mb-3">
+              <p>Price per night: <strong id="modalPrice">₹0</strong></p>
+              <p>Total nights: <strong id="modalNights">0</strong></p>
+              <p>Total price: <strong id="modalTotal">₹0</strong></p>
+          </div>
+          <input type="hidden" name="totalPrice" id="modalTotalPriceInput" value="0">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Confirm Booking</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
